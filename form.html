@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Add any desired CSS styles here */
+    </style>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("myForm");
+      const webAppUrl = "https://script.google.com/a/macros/hartmanncapital.com/s/AKfycbw7_S7ILbtsK8_H5A4Ox3BmpV2fh1dUFteZ1JdNl3hcGqrGRHVtZX_qPY8R--5FOfp-7g/exec"; // The web app URL.
+
+      async function sendDataToSheet(data) {
+        const response = await fetch(webAppUrl, {
+          method: "POST",
+          mode: "no-cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        sendDataToSheet(data); // send the form data to the Google Sheet
+        form.reset(); // reset the form
+      });
+    </script>
+  </body>
+</html>
